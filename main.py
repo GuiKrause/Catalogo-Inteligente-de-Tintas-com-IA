@@ -2,6 +2,7 @@ from langchain.chat_models import init_chat_model
 from langchain_community.utilities import SQLDatabase
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain.agents import create_agent
+from langchain.messages import AIMessage
 from dotenv import load_dotenv
 import os
 
@@ -27,7 +28,7 @@ Utilize exclusivamente consultas SELECT na tabela tintas. Interprete linguagem n
 Não invente informações nem retorne dados que não existam no banco.
 Se não houver resultados, informe isso claramente e sugira ajustes nos critérios.
 
-Retorne as recomendações de forma clara, explicando brevemente apenas o que foi solicitado.
+Retorne as recomendações de forma clara, explicando brevemente apenas o que foi solicitado, não retorne todos os dados de uma vez.
 """.format(
     dialect=db.dialect,
 )
@@ -44,4 +45,8 @@ for step in agent.stream(
     {"messages": [{"role": "user", "content": question}]},
     stream_mode="values",
 ):
-    step["messages"][-1].pretty_print()
+    last_message = step["messages"][-1]
+
+    if isinstance(last_message, AIMessage):
+        ai_message = last_message
+        print(ai_message.content)
