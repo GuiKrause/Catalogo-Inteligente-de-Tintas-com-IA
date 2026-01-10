@@ -5,3 +5,5 @@ langchain-openai
 psycopg2-binary
 python-dotenv
 fastapi[standard]
+streamlit
+requests
