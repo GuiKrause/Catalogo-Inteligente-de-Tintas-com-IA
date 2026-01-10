@@ -6,6 +6,7 @@ from langchain.messages import AIMessage
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -39,14 +40,38 @@ agent = create_agent(
     system_prompt=system_prompt,
 )
 
-question = input("Qual sua dúvida?: ")
+def run_sql_agent(question: str) -> str:
 
-for step in agent.stream(
-    {"messages": [{"role": "user", "content": question}]},
-    stream_mode="values",
-):
-    last_message = step["messages"][-1]
+    final_answer = ""
 
-    if isinstance(last_message, AIMessage):
-        ai_message = last_message
-        print(ai_message.content)
+    for step in agent.stream(
+        {"messages": [{"role": "user", "content": question}]},
+        stream_mode="values",
+    ):
+        last_message = step["messages"][-1]
+
+        if isinstance(last_message, AIMessage):
+            final_answer = last_message.content
+
+    return final_answer
+
+
+# API
+
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+
+class QuestionRequest(BaseModel):
+    question: str
+
+class RecommendationResponse(BaseModel):
+    recommendation: str
+
+@app.post("/recommend")
+def re(request: QuestionRequest):
+    answer = run_sql_agent(request.question)
+    print(answer)
+    return {"answer": answer}
