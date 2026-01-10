@@ -38,7 +38,7 @@ agent = create_agent(
     system_prompt=system_prompt,
 )
 
-question = "Quais são os nomes das tintas de cor branco? Qual rende mais?"
+question = input("Qual sua dúvida?: ")
 
 for step in agent.stream(
     {"messages": [{"role": "user", "content": question}]},
