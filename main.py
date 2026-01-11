@@ -10,9 +10,9 @@ import os
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
-MODEL = os.getenv("MODEL")
+AGENT_MODEL = os.getenv("AGENT_MODEL")
 
-model = init_chat_model(MODEL)
+model = init_chat_model(AGENT_MODEL)
 
 db = SQLDatabase.from_uri(DATABASE_URL)
 
