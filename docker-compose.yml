@@ -1,0 +1,32 @@
+services:
+  agent-api:
+    build:
+      context: ./agent-service
+      dockerfile: Dockerfile
+    container_name: agent_service_container
+    platform: linux/arm64
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./agent-service/.env
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./agent-service:/app:delegated
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: streamlit_container
+    platform: linux/arm64
+    ports:
+      - "8501:8501"
+    environment:
+      - AGENT_API_URL=http://agent-api:8000
+    volumes:
+      - ./frontend:/app:delegated
+    depends_on:
+      - agent-api
+    restart: always

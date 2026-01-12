@@ -5,11 +5,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_URL = os.getenv("API_URL")
+AGENT_API_URL = os.getenv("AGENT_API_URL")
 
 def question_api(question: str) -> str:
     response = requests.post(
-        API_URL,
+        f'{AGENT_API_URL}/ask',
         json={"question": question},
         timeout=60
     )
