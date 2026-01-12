@@ -1,4 +1,3 @@
-from langchain.prompts import PromptTemplate
 from .clients import clients
 
 class AgentPrompts:
@@ -28,11 +27,9 @@ class AgentPrompts:
         - 'sql_db_query_checker': Use esta ferramenta para verificar detalhadamente se sua consulta está correta antes de executá-la. Sempre utilize esta ferramenta antes de executar qualquer consulta
         """
 
-    def get_main_prompt(self):
-        """
-        Retorna o template formatado. 
-        Útil se você precisar injetar variáveis dinâmicas no boot.
-        """
-        return PromptTemplate.from_template(self.system_instructions)
+    @property
+    def instructions(self) -> str:
+        """Retorna a string pura para o state_modifier do agente."""
+        return self.system_instructions
 
 prompts = AgentPrompts()

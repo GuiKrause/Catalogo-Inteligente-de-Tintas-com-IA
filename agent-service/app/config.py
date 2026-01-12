@@ -10,7 +10,6 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     AGENT_MODEL: str
     EMBEDDINGS_MODEL: str
-    API_URL: str
     
     PROJECT_NAME: str
     DEBUG: bool = False
