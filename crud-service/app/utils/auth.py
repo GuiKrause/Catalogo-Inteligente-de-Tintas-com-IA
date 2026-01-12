@@ -2,8 +2,8 @@ from datetime import datetime, timedelta
 from typing import Optional
 from fastapi import HTTPException, status
 from jose import jwt
-from .core.config import settings
-from .schemas import TokenData, UserResponse, Token
+from app.core.config import settings
+from app.schemas.auth import TokenData, Token
 from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -42,16 +42,3 @@ def verify_token(token: str) -> Token:
                 detail="Incorrect username or password",
                 headers={"WWW-Authenticate": "Bearer"},
             )
-
-def get_user(db, username: str):
-    if username in db:
-        user_dict = db[username]
-        return UserResponse(**user_dict)
-
-def authenticate_user(username: str, password: str):
-    user = get_user(username)
-    if not user:
-        return False
-    if not verify_password(password, user.hashed_password):
-        return False
-    return user

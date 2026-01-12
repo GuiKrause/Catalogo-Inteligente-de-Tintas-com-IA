@@ -2,9 +2,9 @@ from typing import List
 from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from app.models import Paint as PaintModel
-from app.schemas import PaintResponse, PaintCreate
-from app.deps import UserModel, get_current_active_user, get_db
+from app.models.paints import Paint as PaintModel
+from app.schemas.paints import PaintResponse, PaintCreate
+from app.utils.deps import UserModel, get_current_active_user, get_current_admin_user, get_db
 from app.utils.embeddings import text_generate_for_embedding
 from app.core.clients import client
 from app.core.config import settings
@@ -15,7 +15,8 @@ router = APIRouter(prefix="/paints", tags=["Paints"])
 def create_tinta(
     tinta: PaintCreate,
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_active_user)
+    current_user: UserModel = Depends(get_current_active_user),
+    admin_user: UserModel = Depends(get_current_admin_user)
 ):
     # 1. Gera texto rico
     texto_embedding = text_generate_for_embedding(tinta)
@@ -61,7 +62,7 @@ def get_paints(
 def get_paint(
     paint_id: UUID,
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_active_user)
+    current_user: UserModel = Depends(get_current_active_user),
 ):
     """Get paint by ID"""
     paint = db.query(PaintModel).filter(PaintModel.id == paint_id).first()
@@ -79,7 +80,8 @@ def get_paint(
 def delete_paint(
     paint_id: UUID,
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_active_user)
+    current_user: UserModel = Depends(get_current_active_user),
+    admin_user: UserModel = Depends(get_current_admin_user)
 ):
     """Delete a paint"""
     paint = db.query(PaintModel).filter(PaintModel.id == paint_id).first()
