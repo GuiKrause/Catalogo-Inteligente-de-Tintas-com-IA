@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 from fastapi import HTTPException, status
 from jose import jwt
-from .config import settings
+from .core.config import settings
 from .schemas import TokenData, UserResponse, Token
 from passlib.context import CryptContext
 

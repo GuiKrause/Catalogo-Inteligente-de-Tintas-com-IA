@@ -9,3 +9,6 @@ pydantic-settings
 psycopg2-binary
 fastapi[standard]
 bcrypt==4.3.0
+passlib[bcrypt]
+pgvector
+openai

@@ -38,7 +38,7 @@ class ToolManager:
             with clients.db._engine.connect() as conn:
                 sql = text("""
                     SELECT *
-                    FROM tintas 
+                    FROM paints 
                     ORDER BY embedding <=> :val
                 """)
                 result = conn.execute(sql, {"val": str(embedding_query)})
