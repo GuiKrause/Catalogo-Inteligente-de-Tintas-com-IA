@@ -21,7 +21,7 @@ def gerar_texto_para_embedding(tinta):
     Lavável: {'Sim' if tinta[15] else 'Não'}. Anti-mofo: {'Sim' if tinta[14] else 'Não'}.
     """.strip()
 
-cur.execute("SELECT * FROM tintas WHERE embedding IS NULL")
+cur.execute("SELECT * FROM paints WHERE embedding IS NULL")
 tintas = cur.fetchall()
 
 print(f"Processando {len(tintas)} tintas...")
@@ -37,7 +37,7 @@ for tinta in tintas:
     embedding = response.data[0].embedding
     
     cur.execute(
-        "UPDATE tintas SET embedding = %s WHERE id = %s",
+        "UPDATE paints SET embedding = %s WHERE id = %s",
         (embedding, tinta_id)
     )
     conn.commit()

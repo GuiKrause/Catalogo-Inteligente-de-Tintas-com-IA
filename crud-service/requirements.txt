@@ -1,0 +1,14 @@
+fastapi 
+uvicorn 
+sqlalchemy 
+python-jose 
+pydantic[email]
+python-dotenv
+pwdlib[argon2]
+pydantic-settings
+psycopg2-binary
+fastapi[standard]
+bcrypt==4.3.0
+passlib[bcrypt]
+pgvector
+openai

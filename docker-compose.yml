@@ -1,5 +1,5 @@
 services:
-  agent-api:
+  agent-service:
     build:
       context: ./agent-service
       dockerfile: Dockerfile
@@ -15,6 +15,19 @@ services:
       - ./agent-service:/app:delegated
     restart: always
 
+  crud-service:
+    build:
+      context: ./crud-service
+      dockerfile: Dockerfile
+    container_name: crud_service_container
+    env_file:
+      - ./crud-service/.env
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./crud-service:/app
+    restart: unless-stopped
+
   frontend:
     build:
       context: ./frontend
@@ -24,9 +37,9 @@ services:
     ports:
       - "8501:8501"
     environment:
-      - AGENT_API_URL=http://agent-api:8000
+      - AGENT_API_URL=http://agent-service:8000
     volumes:
       - ./frontend:/app:delegated
     depends_on:
-      - agent-api
+      - agent-service
     restart: always
