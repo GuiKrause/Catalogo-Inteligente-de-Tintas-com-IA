@@ -2,7 +2,9 @@ langchain
 langgraph  
 langchain-community
 langchain-openai
+langchain-core
 psycopg2-binary
+psycopg[binary]
 python-dotenv
 fastapi[standard]
 streamlit
