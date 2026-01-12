@@ -16,9 +16,10 @@ def question_api(question: str) -> str:
     return response.json()["answer"]
 
 
-st.set_page_config(page_title="Chatbot de Tintas", page_icon="🎨")
+st.set_page_config(page_title="Catálogo de Tintas", page_icon="🎨")
 
-st.title("Chatbot de Tintas")
+st.title("Catálogo Inteligente de Tintas")
+st.subheader("Tire suas dúvidas sobre as tintas do nosso catálogo")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []

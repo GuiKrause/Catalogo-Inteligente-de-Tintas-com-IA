@@ -10,3 +10,4 @@ fastapi[standard]
 streamlit
 requests
 openai
+pydantic-settings
