@@ -1,0 +1,45 @@
+services:
+  agent-service:
+    build:
+      context: ./agent-service
+      dockerfile: Dockerfile
+    container_name: agent_service_container
+    platform: linux/arm64
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./agent-service/.env
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./agent-service:/app:delegated
+    restart: always
+
+  crud-service:
+    build:
+      context: ./crud-service
+      dockerfile: Dockerfile
+    container_name: crud_service_container
+    env_file:
+      - ./crud-service/.env
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./crud-service:/app
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: streamlit_container
+    platform: linux/arm64
+    ports:
+      - "8501:8501"
+    environment:
+      - AGENT_API_URL=http://agent-service:8000
+    volumes:
+      - ./frontend:/app:delegated
+    depends_on:
+      - agent-service
+    restart: always
