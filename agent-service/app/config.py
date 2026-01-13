@@ -10,6 +10,10 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     AGENT_MODEL: str
     EMBEDDINGS_MODEL: str
+    LANGSMITH_TRACING: str
+    LANGSMITH_ENDPOINT: str
+    LANGSMITH_API_KEY: str
+    LANGSMITH_PROJECT: str
     
     PROJECT_NAME: str
     DEBUG: bool = False
